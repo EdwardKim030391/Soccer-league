@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Team Dlete</h1>
+<p> "{{ team.name }}" Delete?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Delete</button>
+</form>
+<a href="{% url 'team_list' %}">Cancle</a>
+{% endblock %}

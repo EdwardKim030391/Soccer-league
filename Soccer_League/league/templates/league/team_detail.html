@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ team.name }}</h1>
+<p>League: {{ team.league.name }}</p>
+{% if user == team.user %}
+    <a href="{% url 'team_update' team.id %}">Edit</a>
+    <a href="{% url 'team_delete' team.id %}">Delete</a>
+{% endif %}
+<a href="{% url 'team_list' %}">Back Team List</a>
+{% endblock %}

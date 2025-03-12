@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Team List</h1>
+<a href="{% url 'team_create' %}">Add New Team</a>
+<ul>
+    {% for team in teams %}
+        <li>
+            <a href="{% url 'team_detail' team.id %}">{{ team.name }}</a>
+            {% if user == team.user %}
+                <a href="{% url 'team_update' team.id %}">Edit</a>
+                <a href="{% url 'team_delete' team.id %}">Delete</a>
+            {% endif %}
+            <a href="{% url 'add_player' team.id %}">Add Player</a>
+            <ul>
+                {% for player in team.players.all %}
+                  <li>{{ player.name }} ({{ player.position }}, {{ player.age }}세)</li>
+                {% empty %}
+                  <li>Empty Player</li>
+                {% endfor %}
+              </ul>
+            </li>
+          {% empty %}
+            <p>Empty Team <a href="{% url 'team_create' %}">Add New Team</a></p>
+          {% endfor %}
+</ul>
+{% endblock %}
