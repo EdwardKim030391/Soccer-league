@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="standings-container">
+  <h2>{{ league.name }} Standing</h2>
+
+  <table class="standings-table">
+    <tr>
+      <th>Standing</th>
+      <th>Team</th>
+      <th>Played</th>
+      <th>Point</th>
+      <th>Won</th>
+      <th>Drawn</th>
+      <th>Lost</th>
+      <th>GD</th>
+    </tr>
+    {% for team in standings %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ team.team.name }}</td>
+        <td>{{ team.wins|add:team.draws|add:team.losses }}</td>
+        <td>{{ team.points }}</td>
+        <td>{{ team.wins }}</td>
+        <td>{{ team.draws }}</td>
+        <td>{{ team.losses }}</td>
+        <td>{{ team.goals }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+
+  <a href="{% url 'match_list' %}" class="btn btn-primary">Match Schedule</a>
+</div>
+{% endblock %}

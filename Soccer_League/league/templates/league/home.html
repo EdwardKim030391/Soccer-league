@@ -8,22 +8,23 @@
     <div class="content">
         <img src="{% static 'images/soccer-logo.svg' %}" alt="Soccer League Logo" class="logo">
 
-        <div class="login-form">
-            <h2>Log In</h2>
-            <form method="POST" action="{% url 'login' %}">
-                {% csrf_token %}
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
+        {% if user.is_authenticated %}
+            <p>You're already logged in! <a href="{% url 'dashboard' %}" class="btn">Go to Dashboard</a></p>
+        {% else %}
+            <div class="login-form">
+                <h2>Log In</h2>
+                <form method="POST" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    {{ form.as_p }}
 
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-
-                <div class="buttons">
-                    <a href="{% url 'signup' %}" class="btn">Sign Up</a>
-                    <button type="submit" class="btn">Log In</button>
-                </div>
-            </form>
-        </div>
+                    <div class="buttons">
+                        <a href="{% url 'signup' %}" class="btn">Sign Up</a>
+                        <button type="submit" class="btn">Log In</button>
+                    </div>
+                </form>
+            </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
+

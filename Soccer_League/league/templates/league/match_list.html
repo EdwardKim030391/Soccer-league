@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="match-list-container">
+  <h2>Match Schedule</h2>
+
+  <table class="match-table">
+    <tr>
+      <th>Date</th>
+      <th>Home Team</th>
+      <th>Score</th>
+      <th>Away Team</th>
+    </tr>
+    {% for match in matches %}
+      <tr>
+        <td>{{ match.date }}</td>
+        <td>{{ match.home_team.name }}</td>
+        <td>
+          {% if match.completed %}
+            <strong>{{ match.home_score }} - {{ match.away_score }}</strong>
+          {% else %}
+            <span class="upcoming-match">Upcoming Match</span>
+          {% endif %}
+        </td>
+        <td>{{ match.away_team.name }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+
+  <a href="{% url 'simulate_season' %}" class="btn btn-primary">Game Start</a>
+</div>
+{% endblock %}

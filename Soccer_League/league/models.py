@@ -10,15 +10,36 @@ class League(models.Model):
 
 class Team(models.Model):
     name = models.CharField(max_length=100)
+    league = models.ForeignKey(League, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+class UserTeam(models.Model):
+    name = models.CharField(max_length=100)
     league = models.ForeignKey(League, on_delete=models.CASCADE, related_name="teams")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="teams", null=True, blank=True)
 
     def __str__(self):
         return self.name
 
+class SelectedTeam(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.team.name}"
+
 class Player(models.Model):
+    POSITION_CHOICES = [
+        ('FW', 'Forward'),
+        ('MF', 'Midfielder'),
+        ('DF', 'Defender'),
+        ('GK', 'Goalkeeper'),
+    ]
+
     name = models.CharField(max_length=100)
-    position = models.CharField(max_length=50)
+    position = models.CharField(max_length=2, choices=POSITION_CHOICES)
     team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="players")
     age = models.IntegerField(default=18)
 
@@ -32,6 +53,7 @@ class Match(models.Model):
     home_score = models.IntegerField(default=0)
     away_score = models.IntegerField(default=0)
     date = models.DateField()
+    completed = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.home_team} vs {self.away_team} - {self.date}"

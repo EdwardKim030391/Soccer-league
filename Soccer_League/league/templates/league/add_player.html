@@ -1,11 +1,32 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h2>{{ team.name }}add Player</h2>
-  <form method="POST">
+<div class="add-player-container">
+  <h2>Add Player to {{ team.name }}</h2>
+
+  <form method="POST" class="player-form">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Add</button>
+
+    <div class="form-group">
+      {{ form.name.label_tag }}
+      {{ form.name }}
+    </div>
+
+    <div class="form-group">
+      {{ form.position.label_tag }}
+      {{ form.position }}
+    </div>
+
+    <div class="form-group">
+      {{ form.age.label_tag }}
+      {{ form.age }}
+    </div>
+
+    <div class="form-buttons">
+      <button type="submit" class="btn btn-primary">Add Player</button>
+      <a href="{% url 'team_list' %}" class="btn btn-secondary">Back to Team</a>
+    </div>
   </form>
-  <a href="{% url 'team_list' %}">Back to Team</a>
+</div>
 {% endblock %}
+

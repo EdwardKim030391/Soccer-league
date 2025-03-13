@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>My Team</h2>
+  <ul>
+    {% for team in selected_teams %}
+      <li>{{ team }}</li>
+    {% endfor %}
+  </ul>
+
+  <h2>Match Schedule</h2>
+  <table>
+    <tr>
+      <th>Date</th>
+      <th>Home Team</th>
+      <th>Score</th>
+      <th>Away Team</th>
+    </tr>
+    {% for match in matches %}
+      <tr>
+        <td>{{ match.date }}</td>
+        <td>{{ match.home_team.name }}</td>
+        <td>
+          {% if match.completed %}
+            {{ match.home_score }} - {{ match.away_score }}
+          {% else %}
+            Before Match
+          {% endif %}
+        </td>
+        <td>{{ match.away_team.name }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endblock %}

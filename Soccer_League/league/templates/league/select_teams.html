@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="select-teams-container">
+  <h2>Select 19 Teams</h2>
+
+  <p><strong>Selected:</strong> <span id="selected-count">0</span> / 19</p>
+
+  <form method="post">
+    {% csrf_token %}
+    <div class="team-selection-grid">
+      {{ form.teams }}
+    </div>
+    <button type="submit" class="btn btn-primary" id="submit-btn" disabled>Submit</button>
+  </form>
+</div>
+
+<!-- JavaScript to count selected teams -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const checkboxes = document.querySelectorAll("input[type='checkbox']");
+    const selectedCount = document.getElementById("selected-count");
+    const submitBtn = document.getElementById("submit-btn");
+
+    function updateCount() {
+      const checked = document.querySelectorAll("input[type='checkbox']:checked").length;
+      selectedCount.textContent = checked;
+
+      if (checked === 19) {
+        submitBtn.disabled = false;
+      } else {
+        submitBtn.disabled = true;
+      }
+    }
+
+    checkboxes.forEach(checkbox => {
+      checkbox.addEventListener("change", updateCount);
+    });
+
+    updateCount();
+  });
+</script>
+{% endblock %}
+

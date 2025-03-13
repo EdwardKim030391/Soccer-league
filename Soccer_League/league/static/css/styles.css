@@ -35,40 +35,230 @@ body {
     width: 150px;
 }
 
-.login-form {
-    text-align: left;
-    background: #f8f8f8;
+.login-container {
+    max-width: 400px;
+    margin: auto;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
-.login-form h2 {
+.login-form .form-group {
     margin-bottom: 15px;
+    text-align: left;
 }
 
 .login-form input {
     width: 100%;
     padding: 8px;
-    margin: 5px 0;
+    margin-top: 5px;
+    border-radius: 5px;
     border: 1px solid #ccc;
-    border-radius: 4px;
 }
 
-.buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
+.signup-container {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.signup-form .form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.signup-form input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
 }
 
 .btn {
-    text-decoration: none;
-    background-color: black;
+    background-color: #007bff;
     color: white;
-    padding: 8px 12px;
-    border-radius: 4px;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    width: 100%;
 }
 
 .btn:hover {
-    background-color: #333;
+    background-color: #0056b3;
+}
+
+.form-container {
+    max-width: 500px;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.team-form .form-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.team-detail-container {
+    max-width: 500px;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.delete-container {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.delete-container p {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.delete-container form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.standings-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.standings-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.standings-table th, .standings-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.standings-table th {
+    background-color: #007bff;
+    color: white;
+}
+
+.standings-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.select-teams-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.team-selection-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2열 그리드 */
+    gap: 10px;
+    text-align: left;
+    margin-top: 20px;
+}
+
+.match-list-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.match-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.match-table th, .match-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.match-table th {
+    background-color: #007bff;
+    color: white;
+}
+
+.match-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.upcoming-match {
+    color: #ff9800;
+    font-weight: bold;
+}
+
+.add-player-container {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.player-form .form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.player-form input, .player-form select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
 }

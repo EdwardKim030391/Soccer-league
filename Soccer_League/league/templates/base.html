@@ -11,17 +11,25 @@
     <header>
         <h1><a href="{% url 'home' %}">My Soccer League</a></h1>
         <nav>
-            <a href="{% url 'team_list' %}">Team List</a>
-            {% if user.is_authenticated %}
-                <a href="{% url 'team_create' %}">Create Team</a>
-                <form action="{% url 'logout' %}" method="post" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit">Logout</button>
-                  </form>
-            {% else %}
-                <a href="{% url 'login' %}">Log In</a>
-                <a href="{% url 'signup' %}">Sign Up</a>
-            {% endif %}
+            <ul>
+                <li><a href="{% url 'team_list' %}">Team List</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                    <li><a href="{% url 'team_create' %}">Create Team</a></li>
+                    <li><a href="{% url 'select_teams' %}">Select Teams</a></li>
+                    <li><a href="{% url 'match_list' %}">Match Schedule</a></li>
+                    <li><a href="{% url 'league_standings' league_id=1 %}">League Standings</a></li>
+                    <li>
+                        <a href="#" onclick="document.getElementById('logout-form').submit();">Logout</a>
+                        <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
+                            {% csrf_token %}
+                        </form>
+                    </li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Log In</a></li>
+                    <li><a href="{% url 'signup' %}">Sign Up</a></li>
+                {% endif %}
+            </ul>
         </nav>
     </header>
 
