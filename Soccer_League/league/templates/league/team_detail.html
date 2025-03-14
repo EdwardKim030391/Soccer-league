@@ -3,18 +3,42 @@
 <h1>{{ team.name }}</h1>
 <p>League: {{ team.league.name }}</p>
 
-<h2>Players</h2>
-<ul>
-    {% for player in players %}
-        <li>{{ player.name }} ({{ player.position }}, Age: {{ player.age }})</li>
+<h2>Player List</h2>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Position</th>
+        <th>Age</th>
+        <th>Speed</th>
+        <th>Shooting</th>
+        <th>Passing</th>
+        <th>Defense</th>
+        <th>Stamina</th>
+        <th>Edit</th>
+    </tr>
+    {% for player in team.players.all %}
+    <tr>
+        <td>{{ player.name }}</td>
+        <td>{{ player.get_position_display }}</td>
+        <td>{{ player.age }}</td>
+        <td>{{ player.speed }}</td>
+        <td>{{ player.shooting }}</td>
+        <td>{{ player.passing }}</td>
+        <td>{{ player.defense }}</td>
+        <td>{{ player.stamina }}</td>
+        <td><a href="{% url 'edit_player' player.id %}">Edit</a></td>
+    </tr>
     {% empty %}
-        <p>No players in this team yet.</p>
+    <tr>
+        <td colspan="9">No players available.</td>
+    </tr>
     {% endfor %}
-</ul>
+</table>
 
-{% if team in user_teams %}
+{% if user.is_authenticated %}
     <a href="{% url 'add_player' team.id %}">Add Player</a>
 {% endif %}
 
 <a href="{% url 'team_list' %}">Back to Team List</a>
 {% endblock %}
+

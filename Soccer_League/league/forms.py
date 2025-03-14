@@ -1,29 +1,18 @@
 from django import forms
-from .models import Team, Player, SelectedTeam
-
-class TeamForm(forms.ModelForm):
-    class Meta:
-        model = Team
-        fields = ["name", "league"]
+from .models import Player, SelectedTeam, Team
 
 class PlayerForm(forms.ModelForm):
     class Meta:
         model = Player
-        fields = ["name", "position", "age"]
+        fields = ["name", "position", "age", "speed", "shooting", "passing", "defense", "stamina"]
 
-class TeamSelectionForm(forms.Form):
-    teams = forms.ModelMultipleChoiceField(
-        queryset=Team.objects.none(),
-        widget=forms.CheckboxSelectMultiple,
-        label="Select 19 Teams"
+class TeamSelectionForm(forms.ModelForm):
+    team = forms.ModelChoiceField(
+        queryset=Team.objects.all(),
+        widget=forms.RadioSelect,
+        label="Select Your Team"
     )
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['teams'].queryset = Team.objects.all()
-
-    def clean_teams(self):
-        selected_teams = self.cleaned_data.get("teams")
-        if len(selected_teams) != 19:
-            raise forms.ValidationError("You must select exactly 19 teams.")
-        return selected_teams
+    class Meta:
+        model = SelectedTeam
+        fields = ["team"]

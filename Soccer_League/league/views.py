@@ -2,27 +2,16 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from .models import Team, SelectedTeam, UserTeam, Match, League, Player
-from .forms import TeamForm, PlayerForm, TeamSelectionForm
+from .models import Team, SelectedTeam, Match, League, Player
+from .forms import PlayerForm
 from datetime import datetime, timedelta
 from django.http import JsonResponse
 from collections import defaultdict
 from django.db.models import Q
-
 import random
 
-# Create your views here.
 def home_view(request):
     return render(request, 'league/home.html')
-
-def dashboard(request):
-    selected_teams = SelectedTeam.objects.filter(user=request.user).values_list('team', flat=True)
-
-    matches = Match.objects.filter(
-        Q(home_team__in=selected_teams) | Q(away_team__in=selected_teams)
-    )
-
-    return render(request, 'league/dashboard.html', {'selected_teams': selected_teams, 'matches': matches})
 
 def signup_view(request):
     if request.method == "POST":
@@ -37,140 +26,100 @@ def signup_view(request):
 
 @login_required
 def your_team(request):
-    leagues = League.objects.all()
-    user_team = UserTeam.objects.filter(user=request.user)  # ✅ 유저가 만든 팀만 가져오기
-
-    # ✅ 리그별 팀 목록을 딕셔너리 형태로 저장
-    league_teams = {}
-    for league in leagues:
-        league_teams[league.id] = Team.objects.filter(league=league)
-
+    selected_team = SelectedTeam.objects.filter(user=request.user).first()
     return render(request, "league/your_team.html", {
-        "leagues": leagues,
-        "user_team": user_team,
-        "league_teams": league_teams  # ✅ 딕셔너리 전달
+        "selected_team": selected_team,
     })
 
 @login_required
-def select_teams(request):
-    leagues = League.objects.prefetch_related("league_teams").all()
+def select_team(request):
+    leagues = League.objects.prefetch_related("teams").all()
 
     if request.method == "POST":
-        selected_teams = request.POST.getlist("teams")
-
-        # 기존 선택한 팀 삭제
-        SelectedTeam.objects.filter(user=request.user).delete()
-
-        # 최대 19개 팀 선택
-        for team_id in selected_teams[:19]:
+        team_id = request.POST.get("team")
+        if team_id:
             team = get_object_or_404(Team, id=team_id)
-            SelectedTeam.objects.create(user=request.user, team=team)
+            SelectedTeam.objects.update_or_create(user=request.user, defaults={"team": team})
 
         return redirect("your_team")
 
-    return render(request, "league/select_teams.html", {"leagues": leagues})
+    return render(request, "league/select_team.html", {"leagues": leagues})
 
-
-@login_required
 def team_list(request):
-    leagues = League.objects.prefetch_related("league_teams").all()
-    user_teams = UserTeam.objects.filter(user=request.user)
-    return render(request, "league/team_list.html", {"leagues": leagues, "user_teams": user_teams})
+    leagues = League.objects.prefetch_related("teams").all()
+    return render(request, "league/team_list.html", {"leagues": leagues})
 
-
-@login_required
 def team_detail(request, team_id):
-
-    user_team = UserTeam.objects.filter(id=team_id, user=request.user).first()
-    if user_team:
-        is_user_team = True
-        team = user_team
-    else:
-        is_user_team = False
-        team = get_object_or_404(Team, id=team_id)
-
+    team = get_object_or_404(Team, id=team_id)
     players = team.players.all()
-
     return render(request, "league/team_detail.html", {
         "team": team,
         "players": players,
-        "is_user_team": is_user_team
     })
 
 @login_required
-def team_create(request):
-    if request.method == "POST":
-        form = TeamForm(request.POST)
-        if form.is_valid():
-            team = form.save(commit=False)
-            team.user = request.user
-            team.save()
-            return redirect("team_list")
-    else:
-        form = TeamForm()
-    return render(request, "league/team_form.html", {"form": form})
-
-@login_required
-def team_update(request, team_id):
-    team = get_object_or_404(Team, id=team_id, user=request.user)
-    if request.method == "POST":
-        form = TeamForm(request.POST, instance=team)
-        if form.is_valid():
-            form.save()
-            return redirect("team_detail", team_id=team.id)
-    else:
-        form = TeamForm(instance=team)
-    return render(request, "league/team_form.html", {"form": form})
-
-@login_required
-def team_delete(request, team_id):
-    team = get_object_or_404(Team, id=team_id, user=request.user)
-    if request.method == "POST":
-        team.delete()
-        return redirect("team_list")
-    return render(request, "league/team_confirm_delete.html", {"team": team})
-
-@login_required
 def add_player(request, team_id):
-    team = get_object_or_404(UserTeam, id=team_id, user=request.user)
+    selected_team = SelectedTeam.objects.filter(user=request.user, team_id=team_id).first()
+    if not selected_team:
+        return redirect("team_detail", team_id=team_id)
 
     if request.method == "POST":
         form = PlayerForm(request.POST)
         if form.is_valid():
             player = form.save(commit=False)
-            player.team = team
+            player.team = selected_team.team
             player.save()
-            return redirect("team_list")
+            return redirect("team_detail", team_id=team_id)
     else:
         form = PlayerForm()
 
-    return render(request, "league/add_player.html", {"form": form, "team": team})
+    return render(request, "league/add_player.html", {"form": form, "team": selected_team.team})
+
+@login_required
+def edit_player(request, player_id):
+    player = get_object_or_404(Player, id=player_id)
+
+    if request.method == "POST":
+        form = PlayerForm(request.POST, instance=player)
+        if form.is_valid():
+            form.save()
+            return redirect("team_detail", team_id=player.team.id)
+    else:
+        form = PlayerForm(instance=player)
+
+    return render(request, "league/edit_player.html", {"form": form, "player": player})
 
 def match_list(request):
     matches = Match.objects.all().order_by("date")
     return render(request, "league/match_list.html", {"matches": matches})
 
 def generate_matches(user):
-    user_team = UserTeam.objects.get(user=user)
-    selected_teams = SelectedTeam.objects.filter(user=user).values_list('team', flat=True)
-    teams = list(selected_teams) + [user_team.id]
+    selected_team = SelectedTeam.objects.filter(user=user).first()
+    if not selected_team:
+        return
 
-    match_date = timezone.now().date()
+    teams = list(Team.objects.filter(league=selected_team.team.league))
 
+    match_date = datetime.today()
     for i in range(len(teams) - 1):
         for j in range(i + 1, len(teams)):
             Match.objects.create(
-                league=user_team.league,
-                home_team_id=teams[i],
-                away_team_id=teams[j],
+                league=selected_team.team.league,
+                home_team=teams[i],
+                away_team=teams[j],
                 date=match_date
             )
             match_date += timedelta(days=3)
 
+@login_required
 def simulate_matches(request):
-    selected_teams = SelectedTeam.objects.filter(user=request.user).values_list('team', flat=True)
+    selected_team = SelectedTeam.objects.filter(user=request.user).first()
+    if not selected_team:
+        return JsonResponse({"error": "No team selected"}, status=400)
 
-    matches = Match.objects.filter(completed=False).filter(home_team__in=selected_teams) | Match.objects.filter(completed=False).filter(away_team__in=selected_teams)
+    matches = Match.objects.filter(completed=False).filter(
+        Q(home_team=selected_team.team) | Q(away_team=selected_team.team)
+    )
 
     for match in matches:
         match.home_score = random.randint(0, 5)
@@ -180,6 +129,7 @@ def simulate_matches(request):
 
     return JsonResponse({"message": "Simulation completed!"})
 
+@login_required
 def simulate_season(request):
     simulate_matches(request)
     return redirect('match_list')

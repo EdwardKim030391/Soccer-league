@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import League, Team, Player, Match, UserTeam, SelectedTeam
+from .models import League, Team, Player, Match, SelectedTeam
 
 @admin.register(League)
 class LeagueAdmin(admin.ModelAdmin):
@@ -12,16 +12,10 @@ class TeamAdmin(admin.ModelAdmin):
     list_filter = ("league",)
     search_fields = ("name",)
 
-@admin.register(UserTeam)
-class UserTeamAdmin(admin.ModelAdmin):
-    list_display = ("name", "league", "user")
-    list_filter = ("league",)
-    search_fields = ("name", "user__username")
-
 @admin.register(SelectedTeam)
 class SelectedTeamAdmin(admin.ModelAdmin):
     list_display = ("user", "team")
-    list_filter = ("team",)
+    list_filter = ("user", "team")
     search_fields = ("user__username", "team__name")
 
 @admin.register(Player)
