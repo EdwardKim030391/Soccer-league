@@ -1,1 +1,2 @@
-web: gunicorn <Soccer_League>.wsgi
+web: gunicorn Soccer_League.wsgi --log-file -
+
