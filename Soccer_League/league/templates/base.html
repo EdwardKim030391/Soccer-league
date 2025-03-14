@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
+    {% if request.resolver_match.url_name != "home" %}
     <header>
         <h1><a href="{% url 'home' %}">My Soccer League</a></h1>
         <nav>
@@ -32,6 +33,7 @@
             </ul>
         </nav>
     </header>
+    {% endif %}
 
     <main>
         {% block content %}

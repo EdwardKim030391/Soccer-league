@@ -1,30 +1,21 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}" />
+{% endblock %}
 {% block content %}
 <div class="home-container">
-    <h1 class="title">Welcome To <br> <span>Soccer League</span></h1>
+    <div class="home-background">
+        <h1 class="title">Welcome to Soccer League</h1>
 
-    <div class="content">
-        <img src="{% static 'images/soccer-logo.svg' %}" alt="Soccer League Logo" class="logo">
+        <div class="logo-container">
+            <img src="{% static 'images/soccer-logo.svg' %}" alt="Soccer League Logo" class="logo">
+        </div>
 
-        {% if user.is_authenticated %}
-            <p>You're already logged in! <a href="{% url 'dashboard' %}" class="btn">Go to Dashboard</a></p>
-        {% else %}
-            <div class="login-form">
-                <h2>Log In</h2>
-                <form method="POST" action="{% url 'login' %}">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-
-                    <div class="buttons">
-                        <a href="{% url 'signup' %}" class="btn">Sign Up</a>
-                        <button type="submit" class="btn">Log In</button>
-                    </div>
-                </form>
-            </div>
-        {% endif %}
+        <div class="auth-buttons">
+            <a href="{% url 'login' %}" class="btn btn-primary">Log In</a>
+            <a href="{% url 'signup' %}" class="btn btn-secondary">Sign Up</a>
+        </div>
     </div>
 </div>
 {% endblock %}
-

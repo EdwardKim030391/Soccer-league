@@ -1,6 +1,6 @@
 from django.urls import path, include
 from .views import (
-    home_view, signup_view, team_list, team_detail, team_create, team_update,
+    home_view, signup_view, your_team, team_list, team_detail, team_create, team_update,
     team_delete, add_player, select_teams, simulate_matches, simulate_season,
     dashboard, league_standings, match_list
 )
@@ -11,6 +11,7 @@ urlpatterns = [
     path("accounts/", include("django.contrib.auth.urls")),
     path("accounts/signup/", signup_view, name="signup"),
 
+    path("your_team/", your_team, name="your_team"),
     path("teams/", team_list, name="team_list"),
     path("teams/<int:team_id>/", team_detail, name="team_detail"),
     path("teams/create/", login_required(team_create), name="team_create"),

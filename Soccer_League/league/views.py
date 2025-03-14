@@ -35,30 +35,67 @@ def signup_view(request):
         form = UserCreationForm()
     return render(request, "registration/signup.html", {"form": form})
 
+@login_required
+def your_team(request):
+    leagues = League.objects.all()
+    user_team = UserTeam.objects.filter(user=request.user)  # ✅ 유저가 만든 팀만 가져오기
+
+    # ✅ 리그별 팀 목록을 딕셔너리 형태로 저장
+    league_teams = {}
+    for league in leagues:
+        league_teams[league.id] = Team.objects.filter(league=league)
+
+    return render(request, "league/your_team.html", {
+        "leagues": leagues,
+        "user_team": user_team,
+        "league_teams": league_teams  # ✅ 딕셔너리 전달
+    })
+
+@login_required
 def select_teams(request):
+    leagues = League.objects.prefetch_related("league_teams").all()
+
     if request.method == "POST":
-        form = TeamSelectionForm(request.POST)
-        if form.is_valid():
-            teams = form.cleaned_data['teams']
-            SelectedTeam.objects.filter(user=request.user).delete()
-            for team in teams[:19]:
-                SelectedTeam.objects.create(user=request.user, team=team)
-            generate_matches(request.user)
+        selected_teams = request.POST.getlist("teams")
 
-            return redirect('dashboard')
-    else:
-        form = TeamSelectionForm()
+        # 기존 선택한 팀 삭제
+        SelectedTeam.objects.filter(user=request.user).delete()
 
-    return render(request, 'league/select_teams.html', {'form': form})
+        # 최대 19개 팀 선택
+        for team_id in selected_teams[:19]:
+            team = get_object_or_404(Team, id=team_id)
+            SelectedTeam.objects.create(user=request.user, team=team)
+
+        return redirect("your_team")
+
+    return render(request, "league/select_teams.html", {"leagues": leagues})
 
 
+@login_required
 def team_list(request):
-    teams = Team.objects.all()
-    return render(request, "league/team_list.html", {"teams": teams})
+    leagues = League.objects.prefetch_related("league_teams").all()
+    user_teams = UserTeam.objects.filter(user=request.user)
+    return render(request, "league/team_list.html", {"leagues": leagues, "user_teams": user_teams})
 
+
+@login_required
 def team_detail(request, team_id):
-    team = get_object_or_404(Team, id=team_id)
-    return render(request, "league/team_detail.html", {"team": team})
+
+    user_team = UserTeam.objects.filter(id=team_id, user=request.user).first()
+    if user_team:
+        is_user_team = True
+        team = user_team
+    else:
+        is_user_team = False
+        team = get_object_or_404(Team, id=team_id)
+
+    players = team.players.all()
+
+    return render(request, "league/team_detail.html", {
+        "team": team,
+        "players": players,
+        "is_user_team": is_user_team
+    })
 
 @login_required
 def team_create(request):
@@ -95,16 +132,18 @@ def team_delete(request, team_id):
 
 @login_required
 def add_player(request, team_id):
-    team = get_object_or_404(Team, id=team_id)
+    team = get_object_or_404(UserTeam, id=team_id, user=request.user)
+
     if request.method == "POST":
         form = PlayerForm(request.POST)
         if form.is_valid():
             player = form.save(commit=False)
             player.team = team
             player.save()
-            return redirect("team_detail", team_id=team.id)
+            return redirect("team_list")
     else:
         form = PlayerForm()
+
     return render(request, "league/add_player.html", {"form": form, "team": team})
 
 def match_list(request):

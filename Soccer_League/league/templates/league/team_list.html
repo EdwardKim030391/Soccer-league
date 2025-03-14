@@ -1,33 +1,23 @@
 {% extends "base.html" %}
+{% load custom_filters %}
+
 {% block content %}
 <h1>Team List</h1>
-<a href="{% url 'team_create' %}" class="btn">Add New Team</a>
 
-<ul>
-    {% for team in teams %}
-        <li>
-            <a href="{% url 'team_detail' team.id %}">{{ team.name }}</a>
+{% for league in leagues %}
+    <h2>{{ league.name }}</h2>
+    <ul>
+        {% for team in league.league_teams.all %}
+            <li>
+                <a href="{% url 'team_detail' team.id %}">{{ team.name }}</a>
 
-            {% if user.is_authenticated %}
-                <a href="{% url 'add_player' team.id %}" class="btn">Add Player</a>
-            {% endif %}
-
-            {% if user.is_authenticated and user == team.user %}
-                <a href="{% url 'team_update' team.id %}" class="btn">Edit</a>
-                <a href="{% url 'team_delete' team.id %}" class="btn">Delete</a>
-            {% endif %}
-
-            <ul>
-                {% for player in team.players.all %}
-                    <li>{{ player.name }} ({{ player.position }}, {{ player.age }} years old)</li>
-                {% empty %}
-                    <li>No players added yet.</li>
-                {% endfor %}
-            </ul>
-
-        </li>
-    {% empty %}
-        <p>No teams available. <a href="{% url 'team_create' %}" class="btn">Add New Team</a></p>
-    {% endfor %}
-</ul>
+                {% if team in user_teams %}
+                    <a href="{% url 'add_player' team.id %}">Add Player</a>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>No teams in this league.</li>
+        {% endfor %}
+    </ul>
+{% endfor %}
 {% endblock %}

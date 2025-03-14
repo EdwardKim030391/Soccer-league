@@ -10,15 +10,15 @@ class League(models.Model):
 
 class Team(models.Model):
     name = models.CharField(max_length=100)
-    league = models.ForeignKey(League, on_delete=models.CASCADE)
+    league = models.ForeignKey(League, on_delete=models.CASCADE, related_name="league_teams")
 
     def __str__(self):
         return self.name
 
 class UserTeam(models.Model):
     name = models.CharField(max_length=100)
-    league = models.ForeignKey(League, on_delete=models.CASCADE, related_name="teams")
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="teams", null=True, blank=True)
+    league = models.ForeignKey(League, on_delete=models.CASCADE, related_name="user_teams")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_teams", null=True, blank=True)
 
     def __str__(self):
         return self.name
