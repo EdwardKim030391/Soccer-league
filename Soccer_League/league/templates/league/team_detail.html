@@ -3,6 +3,26 @@
 <h1>{{ team.name }}</h1>
 <p>League: {{ team.league.name }}</p>
 
+<!-- 팀 평균 능력치 표시 -->
+<h2>Team Average Ratings</h2>
+<table>
+    <tr>
+        <th>Speed</th>
+        <th>Shooting</th>
+        <th>Passing</th>
+        <th>Defense</th>
+        <th>Stamina</th>
+    </tr>
+    <tr>
+        <td>{{ avg_ratings.speed|floatformat:1 }}</td>
+        <td>{{ avg_ratings.shooting|floatformat:1 }}</td>
+        <td>{{ avg_ratings.passing|floatformat:1 }}</td>
+        <td>{{ avg_ratings.defense|floatformat:1 }}</td>
+        <td>{{ avg_ratings.stamina|floatformat:1 }}</td>
+    </tr>
+</table>
+
+<!-- 선수 목록 -->
 <h2>Player List</h2>
 <table>
     <tr>

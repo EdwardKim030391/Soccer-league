@@ -6,6 +6,15 @@
 
     <form method="POST" class="login-form">
       {% csrf_token %}
+
+      {% if form.non_field_errors %}
+        <div class="error-message">
+          {% for error in form.non_field_errors %}
+            <p>{{ error }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+
       <div class="form-group">
         {{ form.username.label_tag }}
         {{ form.username }}
@@ -16,10 +25,11 @@
         {{ form.password }}
       </div>
 
-      <button type="submit" class="btn">Log In</button>
+      <button type="submit" class="btn btn-primary">Log In</button>
     </form>
 
     <p>Don't have an account? <a href="{% url 'signup' %}">Sign Up</a></p>
     <p><a href="{% url 'password_reset' %}">Forgot your password?</a></p>
   </div>
 {% endblock %}
+

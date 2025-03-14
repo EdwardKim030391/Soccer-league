@@ -10,10 +10,17 @@
       <th>Home Team</th>
       <th>Score</th>
       <th>Away Team</th>
+      <th>Simulate</th>
     </tr>
     {% for match in matches %}
-      <tr>
-        <td>{{ match.date }}</td>
+      <tr {% if match.date == today %} class="today-match" {% endif %}>
+        <td>
+          {% if match.date == today %}
+            <strong>Today’s Match</strong> - {{ match.date }}
+          {% else %}
+            {{ match.date }}
+          {% endif %}
+        </td>
         <td>{{ match.home_team.name }}</td>
         <td>
           {% if match.completed %}
@@ -23,10 +30,57 @@
           {% endif %}
         </td>
         <td>{{ match.away_team.name }}</td>
+        <td>
+          {% if not match.completed %}
+            <form method="POST" action="{% url 'simulate_matches' %}">
+              {% csrf_token %}
+              <input type="hidden" name="match_id" value="{{ match.id }}">
+              <button type="submit" class="simulate-btn">Simulate</button>
+            </form>
+          {% else %}
+            <span class="completed">Completed</span>
+          {% endif %}
+        </td>
       </tr>
     {% endfor %}
   </table>
 
-  <a href="{% url 'simulate_season' %}" class="btn btn-primary">Game Start</a>
+  <a href="{% url 'simulate_season' %}" class="btn btn-primary">Game Start (Simulate All)</a>
 </div>
+
+<style>
+  .match-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .match-table th, .match-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+  }
+
+  .upcoming-match {
+    color: orange;
+  }
+
+  .today-match {
+    background-color: #fffae6;
+    font-weight: bold;
+  }
+
+  .completed {
+    color: green;
+    font-weight: bold;
+  }
+
+  .simulate-btn {
+    background-color: blue;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+</style>
 {% endblock %}
+

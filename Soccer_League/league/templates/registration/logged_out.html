@@ -2,11 +2,16 @@
 
 {% block content %}
   <div class="logged-out-container">
-    <h2>You have been logged out</h2>
-    <p>Thank you for visiting My Soccer League. Come back soon!</p>
+    <h2>You've been logged out</h2>
+    <p>Thanks for visiting My Soccer League! See you next time.</p>
 
-    <a href="{% url 'home' %}" class="btn">Return to Home</a>
-    <a href="{% url 'login' %}" class="btn btn-primary">Log In Again</a>
-    <a href="{% url 'team_list' %}" class="btn btn-secondary">View Teams</a>
+    <div class="btn-container">
+      <a href="{% url 'home' %}" class="btn btn-secondary">Return to Home</a>
+      <a href="{% url 'login' %}" class="btn btn-primary">Log In Again</a>
+      <a href="{% url 'signup' %}" class="btn btn-success">Sign Up</a>
+    </div>
+
+    <p>Want to explore? <a href="{% url 'team_list' %}">Check out the teams</a>.</p>
   </div>
 {% endblock %}
+

@@ -1,23 +1,30 @@
 {% extends 'base.html' %}
 {% block content %}
-  <h2>Select 19 Teams</h2>
+<h2>Select 19 Teams</h2>
 
-  <form method="post">
+{% if error %}
+<p style="color: red;">{{ error }}</p>
+{% endif %}
+
+<p><strong>Your Team:</strong> {{ selected_team.name }}</p>
+
+<form method="post">
     {% csrf_token %}
 
-    <!-- 리그별로 선택할 수 있는 팀 목록을 구분 -->
     {% for league in leagues %}
         <h3>{{ league.name }}</h3>
-        {% for team in league.league_teams.all %}
-            <label>
-                <input type="checkbox" name="teams" value="{{ team.id }}">
-                {{ team.name }}
-            </label><br>
+        {% for team in league.teams.all %}
+            {% if team.id != selected_team.id %}
+                <label>
+                    <input type="checkbox" name="teams" value="{{ team.id }}">
+                    {{ team.name }}
+                </label><br>
+            {% endif %}
         {% empty %}
             <p>No teams available in this league.</p>
         {% endfor %}
     {% endfor %}
 
-    <button type="submit">Submit</button>
-  </form>
+    <button type="submit">Start League</button>
+</form>
 {% endblock %}

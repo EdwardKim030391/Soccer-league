@@ -2,17 +2,19 @@
 
 {% block content %}
 <div class="standings-container">
-  <h2>{{ league.name }} Standing</h2>
+  <h2>{{ league.name }} Standings</h2>
 
   <table class="standings-table">
     <tr>
-      <th>Standing</th>
+      <th>Rank</th>
       <th>Team</th>
       <th>Played</th>
-      <th>Point</th>
+      <th>Points</th>
       <th>Won</th>
       <th>Drawn</th>
       <th>Lost</th>
+      <th>GF</th>
+      <th>GA</th>
       <th>GD</th>
     </tr>
     {% for team in standings %}
@@ -24,11 +26,13 @@
         <td>{{ team.wins }}</td>
         <td>{{ team.draws }}</td>
         <td>{{ team.losses }}</td>
-        <td>{{ team.goals }}</td>
+        <td>{{ team.goals_scored }}</td>
+        <td>{{ team.goals_conceded }}</td>
+        <td>{{ team.goals_scored|add:team.goals_conceded|floatformat:0 }}</td>
       </tr>
     {% endfor %}
   </table>
 
-  <a href="{% url 'match_list' %}" class="btn btn-primary">Match Schedule</a>
+  <a href="{% url 'match_list' %}" class="btn btn-primary">View Matches</a>
 </div>
 {% endblock %}

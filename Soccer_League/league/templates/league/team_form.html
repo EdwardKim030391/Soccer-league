@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="form-container">
-    <h1>{% if form.instance.pk %}Edit Team{% else %}Add New Team{% endif %}</h1>
+    <h1>Edit Team</h1>
 
     <form method="post" class="team-form">
         {% csrf_token %}
@@ -9,9 +9,8 @@
 
         <div class="form-buttons">
             <button type="submit" class="btn btn-primary">Save</button>
-            <a href="{% url 'team_list' %}" class="btn btn-secondary">Cancel</a>
+            <a href="{% url 'your_team' %}" class="btn btn-secondary">Cancel</a>
         </div>
     </form>
 </div>
 {% endblock %}
-

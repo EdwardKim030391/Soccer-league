@@ -13,13 +13,19 @@
         <h1><a href="{% url 'home' %}">My Soccer League</a></h1>
         <nav>
             <ul>
-                <li><a href="{% url 'team_list' %}">Team List</a></li>
+                <li><a href="{% url 'team_list' %}">Teams</a></li>
                 {% if user.is_authenticated %}
-                    <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-                    <li><a href="{% url 'team_create' %}">Create Team</a></li>
-                    <li><a href="{% url 'select_teams' %}">Select Teams</a></li>
+                    <li><a href="{% url 'your_team' %}">Your Team</a></li>
                     <li><a href="{% url 'match_list' %}">Match Schedule</a></li>
-                    <li><a href="{% url 'league_standings' league_id=1 %}">League Standings</a></li>
+
+                    {% with selected_team=user.selectedteam_set.first %}
+                        {% if selected_team %}
+                            <li><a href="{% url 'league_standings' league_id=selected_team.team.league.id %}">League Standings</a></li>
+                        {% else %}
+                            <li><a href="{% url 'select_teams' %}">Select Teams</a></li>
+                        {% endif %}
+                    {% endwith %}
+
                     <li>
                         <a href="#" onclick="document.getElementById('logout-form').submit();">Logout</a>
                         <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">

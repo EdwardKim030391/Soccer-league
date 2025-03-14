@@ -1,47 +1,13 @@
 {% extends "base.html" %}
-{% load filters %}
 {% block content %}
-<div class="your-team-container">
-    <h1>Your Team</h1>
+<h1>Your Team</h1>
 
-    {% for league in leagues %}
-        <div class="league-section">
-            <h2 class="league-title" onclick="toggleTeams({{ league.id }})">
-                {{ league.name }}
-            </h2>
-            {% with team=user_team|dictsort:"league.id"|first %}
-                {% if team and team.league == league %}
-                    <p>Your Team: {{ team.name }}</p>
-                {% else %}
-                    <p class="not-selected">
-                        Not Your Team Yet (<a href="{% url 'team_create' %}">ADD YOUR TEAM</a>)
-                    </p>
-                {% endif %}
-            {% endwith %}
+{% if selected_team %}
+    <p>Your Team: <strong>{{ selected_team.team.name }}</strong></p>
+    <p>League: {{ selected_team.team.league.name }}</p>
+    <a href="{% url 'select_teams' %}" class="btn btn-primary">Proceed to Select 19 Teams</a>
+{% else %}
+    <p>You haven't selected a team yet. <a href="{% url 'team_list' %}">Select a team</a>.</p>
+{% endif %}
 
-            <!-- ✅ 리그 클릭 시 해당 리그의 팀 목록이 보이도록 수정 -->
-            <div id="teams-{{ league.id }}" class="league-teams" style="display: none;">
-                <h3>Teams in {{ league.name }}</h3>
-                <ul>
-                    {% for team in league_teams|get_item:league.id %}
-                        <li>{{ team.name }}</li>
-                    {% empty %}
-                        <li>No teams in this league yet.</li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-    {% endfor %}
-</div>
-
-<script>
-    function toggleTeams(leagueId) {
-        let teamsDiv = document.getElementById("teams-" + leagueId);
-        if (teamsDiv.style.display === "none") {
-            teamsDiv.style.display = "block";
-        } else {
-            teamsDiv.style.display = "none";
-        }
-    }
-</script>
 {% endblock %}

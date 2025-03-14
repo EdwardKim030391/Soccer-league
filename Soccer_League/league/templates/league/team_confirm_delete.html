@@ -2,13 +2,12 @@
 {% block content %}
 <div class="delete-container">
     <h1>Delete Team</h1>
-    <p>Are you sure you want to delete "<strong>{{ team.name }}</strong>"?</p>
+    <p>Are you sure you want to remove "<strong>{{ team.name }}</strong>" from your selection?</p>
 
     <form method="post">
         {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Delete</button>
-        <a href="{% url 'team_list' %}" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-danger">Remove</button>
+        <a href="{% url 'your_team' %}" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
 {% endblock %}
-

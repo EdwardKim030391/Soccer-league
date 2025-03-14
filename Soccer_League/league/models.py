@@ -16,13 +16,13 @@ class Team(models.Model):
 
     def average_skill_rating(self):
         avg_rating = self.players.aggregate(
-            speed=Avg('speed') or 0,
-            shooting=Avg('shooting') or 0,
-            passing=Avg('passing') or 0,
-            defense=Avg('defense') or 0,
-            stamina=Avg('stamina') or 0
+            speed=Avg('speed'),
+            shooting=Avg('shooting'),
+            passing=Avg('passing'),
+            defense=Avg('defense'),
+            stamina=Avg('stamina')
         )
-        return avg_rating
+        return {key: avg_rating.get(key, 0) or 0 for key in avg_rating}
 
     def __str__(self):
         return self.name
@@ -56,7 +56,7 @@ class Player(models.Model):
 
 
 class SelectedTeam(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="selected_team")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="selected_teams")
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -74,9 +74,5 @@ class Match(models.Model):
     date = models.DateField()
     completed = models.BooleanField(default=False)
 
-    def is_completed(self):
-        return self.completed
-
     def __str__(self):
         return f"{self.home_team} vs {self.away_team} - {self.date}"
-
