@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'Soccer_League.wsgi.application'
 if 'ON_HEROKU' in os.environ:
     DATABASES = {
         "default": dj_database_url.config(
-            env='DATABASE_URL',
+            default=os.getenv("DATABASE_URL"),
             conn_max_age=600,
             conn_health_checks=True,
             ssl_require=True,
