@@ -47,6 +47,12 @@
         <td>{{ player.defense }}</td>
         <td>{{ player.stamina }}</td>
         <td><a href="{% url 'edit_player' player.id %}">Edit</a></td>
+        <td>
+            <form method="POST" action="{% url 'delete_player' player.id %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        </td>
     </tr>
     {% empty %}
     <tr>
@@ -61,4 +67,3 @@
 
 <a href="{% url 'team_list' %}">Back to Team List</a>
 {% endblock %}
-

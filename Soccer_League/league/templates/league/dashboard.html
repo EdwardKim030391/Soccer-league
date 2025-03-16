@@ -1,133 +1,41 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block content %}
-<div class="dashboard-container">
-  <h2>My Team</h2>
-  {% if selected_teams %}
-    <ul>
-      {% for team in selected_teams %}
-        <li><strong>{{ team }}</strong></li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p class="no-team-warning">No team selected yet. <a href="{% url 'select_teams' %}">Select a team</a> to participate in the league.</p>
-  {% endif %}
+<h1>Dashboard</h1>
 
-  <h2>Match Schedule</h2>
-  <table class="match-table">
+{% with selected_team=user.selected_team %}
+    {% if selected_team %}
+        <p>Your Team: <strong>{{ selected_team.team.name }}</strong></p>
+        <p>League: {{ selected_team.team.league.name }}</p>
+        <a href="{% url 'league_standings' league_id=selected_team.team.league.id %}">View League Standings</a>
+    {% else %}
+        <p>You haven't selected a team yet. <a href="{% url 'team_list' %}">Select a team</a>.</p>
+    {% endif %}
+{% endwith %}
+
+<h2>Upcoming Matches</h2>
+<table>
     <tr>
-      <th>Date</th>
-      <th>Home Team</th>
-      <th>Score</th>
-      <th>Away Team</th>
-      <th>Result</th>
+        <th>Date</th>
+        <th>Home Team</th>
+        <th>Score</th>
+        <th>Away Team</th>
     </tr>
     {% for match in matches %}
-      {% if match.completed %}
-        {% if match.home_team in selected_teams and match.home_score > match.away_score %}
-          {% set result = "Win" %}
-          {% set class_name = "win" %}
-        {% elif match.away_team in selected_teams and match.away_score > match.home_score %}
-          {% set result = "Loss" %}
-          {% set class_name = "loss" %}
-        {% else %}
-          {% set result = "Draw" %}
-          {% set class_name = "draw" %}
-        {% endif %}
-      {% else %}
-        {% set result = "Upcoming" %}
-        {% set class_name = "upcoming" %}
-      {% endif %}
-
-      <tr class="{{ class_name }}">
+    <tr>
         <td>{{ match.date }}</td>
         <td>{{ match.home_team.name }}</td>
         <td>
-          {% if match.completed %}
-            <strong>{{ match.home_score }} - {{ match.away_score }}</strong>
-          {% else %}
-            <span class="upcoming-match">Before Match</span>
-          {% endif %}
+            {% if match.completed %}
+                {{ match.home_score }} - {{ match.away_score }}
+            {% else %}
+                Upcoming
+            {% endif %}
         </td>
         <td>{{ match.away_team.name }}</td>
-        <td class="match-result">{{ result }}</td>
-      </tr>
+    </tr>
+    {% empty %}
+        <tr><td colspan="4">No matches scheduled.</td></tr>
     {% endfor %}
-  </table>
-
-  <div class="dashboard-buttons">
-    <a href="{% url 'simulate_matches' %}" class="btn btn-primary">Simulate Next Match</a>
-    <a href="{% url 'league_standings' league_id=1 %}" class="btn btn-secondary">View Standings</a>
-  </div>
-</div>
-
-<style>
-  .dashboard-container {
-    padding: 20px;
-    text-align: center;
-  }
-
-  .no-team-warning {
-    color: red;
-    font-weight: bold;
-  }
-
-  .match-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
-  }
-
-  .match-table th, .match-table td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: center;
-  }
-
-  .win {
-    background-color: lightgreen;
-  }
-
-  .loss {
-    background-color: lightcoral;
-  }
-
-  .draw {
-    background-color: lightgray;
-  }
-
-  .upcoming {
-    background-color: lightblue;
-  }
-
-  .match-result {
-    font-weight: bold;
-  }
-
-  .dashboard-buttons {
-    margin-top: 20px;
-  }
-
-  .btn {
-    padding: 10px 20px;
-    text-decoration: none;
-    font-size: 1.2rem;
-    border-radius: 8px;
-    color: white;
-    margin: 5px;
-  }
-
-  .btn-primary {
-    background-color: blue;
-  }
-
-  .btn-secondary {
-    background-color: gray;
-  }
-
-  .btn:hover {
-    opacity: 0.8;
-  }
-</style>
+</table>
 {% endblock %}
-

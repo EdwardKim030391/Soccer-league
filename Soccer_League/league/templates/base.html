@@ -18,13 +18,13 @@
                     <li><a href="{% url 'your_team' %}">Your Team</a></li>
                     <li><a href="{% url 'match_list' %}">Match Schedule</a></li>
 
-                    {% with selected_team=user.selectedteam_set.first %}
-                        {% if selected_team %}
-                            <li><a href="{% url 'league_standings' league_id=selected_team.team.league.id %}">League Standings</a></li>
-                        {% else %}
-                            <li><a href="{% url 'select_teams' %}">Select Teams</a></li>
-                        {% endif %}
-                    {% endwith %}
+                    {% if selected_team and selected_team.team.league %}
+                    <li>
+                        <a href="{% url 'league_standings' league_id=selected_team.team.league.id %}">
+                            League Standings
+                        </a>
+                    </li>
+                {% endif %}
 
                     <li>
                         <a href="#" onclick="document.getElementById('logout-form').submit();">Logout</a>

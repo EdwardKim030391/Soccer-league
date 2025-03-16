@@ -1,0 +1,60 @@
+.home-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+    text-align: center;
+    background: url('/static/images/soccer-background.png') no-repeat center center;
+    background-size: cover;
+    position: relative;
+}
+
+.title {
+    font-size: 100rem;
+    font-weight: bold;
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.logo-container {
+    margin-top: 100px;
+}
+
+.logo {
+    width: 50px;
+}
+
+.auth-buttons {
+    margin-top: 20px;
+}
+
+.auth-buttons a {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 1.2rem;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.btn-primary {
+    background-color: #000;
+    color: white;
+}
+
+.btn-secondary {
+    background-color: #ccc;
+    color: black;
+}
+
+.footer-text {
+    font-size: 0.9rem;
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #555;
+}

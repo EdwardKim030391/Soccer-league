@@ -10,12 +10,12 @@
       <th>Team</th>
       <th>Played</th>
       <th>Points</th>
-      <th>Won</th>
-      <th>Drawn</th>
-      <th>Lost</th>
-      <th>GF</th>
-      <th>GA</th>
-      <th>GD</th>
+      <th>Wins</th>
+      <th>Draws</th>
+      <th>Losses</th>
+      <th>Goals Scored</th>
+      <th>Goals Conceded</th>
+      <th>Goal Difference</th>
     </tr>
     {% for team in standings %}
       <tr>
@@ -28,11 +28,12 @@
         <td>{{ team.losses }}</td>
         <td>{{ team.goals_scored }}</td>
         <td>{{ team.goals_conceded }}</td>
-        <td>{{ team.goals_scored|add:team.goals_conceded|floatformat:0 }}</td>
+        <td>{{ team.goal_difference }}</td>
       </tr>
     {% endfor %}
   </table>
 
-  <a href="{% url 'match_list' %}" class="btn btn-primary">View Matches</a>
+  <a href="{% url 'match_list' %}" class="btn btn-primary">Match Schedule</a>
 </div>
 {% endblock %}
+

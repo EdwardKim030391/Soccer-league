@@ -1,21 +1,30 @@
 {% extends "base.html" %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/team_list.css' %}">
+{% endblock %}
 {% block content %}
-<h1>Team List</h1>
+<h1 class="page-title">Team List</h1>
 
 {% for league in leagues %}
-    <h2>{{ league.name }}</h2>
-    <ul>
+    <h2 class="league-title">{{ league.name }}</h2>
+    <ul class="team-list">
         {% for team in league.teams.all %}
-            <li>
-                <a href="{% url 'team_detail' team.id %}">{{ team.name }}</a>
+            <li class="team-item">
+                <a href="{% url 'team_detail' team.id %}" class="team-name">{{ team.name }}</a>
 
                 {% if selected_team and selected_team.team == team %}
-                    <strong>(Your Team)</strong>
+                    <span class="your-team">(Your Team)</span>
                 {% elif not selected_team %}
-                    <form method="POST" action="{% url 'select_your_team' team.id %}">
-                        {% csrf_token %}
-                        <button type="submit">Select This Team</button>
-                    </form>
+                <form method="POST" action="{% url 'change_team' team.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Change Team</button>
+                </form>
+            {% else %}
+                <form method="POST" action="{% url 'change_team' team.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Select This Team</button>
+                </form>
                 {% endif %}
             </li>
         {% empty %}
@@ -29,4 +38,3 @@
 {% endif %}
 
 {% endblock %}
-

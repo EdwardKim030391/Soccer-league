@@ -5,9 +5,10 @@
 {% if selected_team %}
     <p>Your Team: <strong>{{ selected_team.team.name }}</strong></p>
     <p>League: {{ selected_team.team.league.name }}</p>
-    <a href="{% url 'select_teams' %}" class="btn btn-primary">Proceed to Select 19 Teams</a>
+    <a href="{% url 'team_list' %}">Change Your Team</a>
 {% else %}
     <p>You haven't selected a team yet. <a href="{% url 'team_list' %}">Select a team</a>.</p>
 {% endif %}
 
+<a href="{% url 'select_teams' %}">Proceed to Select 19 Teams</a>
 {% endblock %}
