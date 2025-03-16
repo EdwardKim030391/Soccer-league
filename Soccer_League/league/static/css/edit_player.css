@@ -1,0 +1,99 @@
+.edit-player-container {
+    width: 90%;
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.edit-player-container h2 {
+    font-size: 2.4rem;
+    color: #d63384;
+    margin-bottom: 15px;
+}
+
+.player-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group {
+    text-align: left;
+}
+
+.form-group label {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #333;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.6rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #d63384;
+    outline: none;
+    box-shadow: 0px 0px 5px rgba(214, 51, 132, 0.3);
+}
+
+.btn {
+    display: inline-block;
+    width: 100%;
+    padding: 12px;
+    font-size: 1.6rem;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #d63384;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #b31e6f;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #545b62;
+}
+
+@media screen and (max-width: 600px) {
+    .edit-player-container {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .form-group input,
+    .form-group select {
+        font-size: 1.4rem;
+        padding: 10px;
+    }
+
+    .btn {
+        font-size: 1.4rem;
+        padding: 10px;
+    }
+}

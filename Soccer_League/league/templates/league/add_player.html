@@ -1,4 +1,9 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/add_player.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="add-player-container">
@@ -70,50 +75,4 @@
   </form>
 </div>
 
-<style>
-  .add-player-container {
-    width: 50%;
-    margin: auto;
-    text-align: center;
-  }
-
-  .error-messages {
-    color: red;
-    font-weight: bold;
-    background: #ffecec;
-    padding: 10px;
-    border: 1px solid red;
-    margin-bottom: 20px;
-  }
-
-  .form-group {
-    margin-bottom: 15px;
-  }
-
-  .form-buttons {
-    margin-top: 20px;
-  }
-
-  .btn {
-    padding: 10px 20px;
-    text-decoration: none;
-    font-size: 1.2rem;
-    border-radius: 8px;
-    color: white;
-    margin: 5px;
-  }
-
-  .btn-primary {
-    background-color: blue;
-  }
-
-  .btn-secondary {
-    background-color: gray;
-  }
-
-  .btn:hover {
-    opacity: 0.8;
-  }
-</style>
 {% endblock %}
-

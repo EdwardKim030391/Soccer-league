@@ -1,30 +1,42 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/select_teams.css' %}">
+{% endblock %}
+
 {% block content %}
-<h2>Select 19 Teams</h2>
+<div class="select-teams-container">
+    <h2>Select 19 Teams</h2>
 
-{% if error %}
-<p style="color: red;">{{ error }}</p>
-{% endif %}
+    {% if error %}
+    <p class="error-message">{{ error }}</p>
+    {% endif %}
 
-<p><strong>Your Team:</strong> {{ selected_team.name }}</p>
+    <p class="selected-team"><strong>Your Team:</strong> {{ selected_team.name }}</p>
 
-<form method="post">
-    {% csrf_token %}
+    <form method="post">
+        {% csrf_token %}
 
-    {% for league in leagues %}
-        <h3>{{ league.name }}</h3>
-        {% for team in league.teams.all %}
-            {% if team.id != selected_team.id %}
-                <label>
-                    <input type="checkbox" name="teams" value="{{ team.id }}">
-                    {{ team.name }}
-                </label><br>
-            {% endif %}
-        {% empty %}
-            <p>No teams available in this league.</p>
+        {% for league in leagues %}
+            <h3 class="league-title">{{ league.name }}</h3>
+            <ul class="team-list">
+                {% for team in league.teams.all %}
+                    {% if team.id != selected_team.id %}
+                        <li>
+                            <label>
+                                <input type="checkbox" name="teams" value="{{ team.id }}">
+                                {{ team.name }}
+                            </label>
+                        </li>
+                    {% endif %}
+                {% empty %}
+                    <p>No teams available in this league.</p>
+                {% endfor %}
+            </ul>
         {% endfor %}
-    {% endfor %}
 
-    <button type="submit">Start League</button>
-</form>
+        <button type="submit" class="start-league-btn">Start League</button>
+    </form>
+</div>
 {% endblock %}

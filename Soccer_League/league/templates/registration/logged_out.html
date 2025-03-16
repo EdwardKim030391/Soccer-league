@@ -1,4 +1,9 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/logged_out.css' %}">
+{% endblock %}
 
 {% block content %}
   <div class="logged-out-container">
@@ -14,4 +19,3 @@
     <p>Want to explore? <a href="{% url 'team_list' %}">Check out the teams</a>.</p>
   </div>
 {% endblock %}
-

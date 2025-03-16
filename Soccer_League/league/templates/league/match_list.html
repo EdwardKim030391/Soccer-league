@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/match_list.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="match-list-container">

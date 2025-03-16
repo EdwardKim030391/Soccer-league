@@ -1,14 +1,30 @@
 {% extends "base.html" %}
-{% block content %}
-<h1>Your Team</h1>
+{% load static %}
 
-{% if selected_team %}
-    <p>Your Team: <strong>{{ selected_team.team.name }}</strong></p>
-    <p>League: {{ selected_team.team.league.name }}</p>
-    <a href="{% url 'team_list' %}">Change Your Team</a>
-{% else %}
-    <p>You haven't selected a team yet. <a href="{% url 'team_list' %}">Select a team</a>.</p>
-{% endif %}
-
-<a href="{% url 'select_teams' %}">Proceed to Select 19 Teams</a>
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/your_team.css' %}">
 {% endblock %}
+
+{% block content %}
+<div class="your-team-container">
+    <h1>Your Team</h1>
+
+    {% if selected_team %}
+        <p>Your Team: <strong>{{ selected_team.team.name }}</strong></p>
+        <p>League: {{ selected_team.team.league.name }}</p>
+        <div class="btn-container">
+            <a href="{% url 'team_list' %}" class="btn btn-secondary">Change Your Team</a>
+        </div>
+    {% else %}
+        <p>You haven't selected a team yet.</p>
+        <div class="btn-container">
+            <a href="{% url 'team_list' %}" class="btn btn-primary">Select a Team</a>
+        </div>
+    {% endif %}
+
+    <div class="btn-container">
+        <a href="{% url 'select_teams' %}" class="btn btn-primary">Proceed to Select 19 Teams</a>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,47 +1,42 @@
-.home-container {
+.your-team-container {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-}
-
-.home-background {
     text-align: center;
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
     background: white;
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-    max-width: 500px;
-    width: 90%;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
-.title {
+h1 {
     font-size: 28px;
     font-weight: bold;
     color: #333;
     margin-bottom: 15px;
 }
 
-.logo-container {
-    margin: 20px 0;
+p {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 15px;
 }
 
-.logo {
-    width: 120px;
-    height: auto;
-    filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.2));
+strong {
+    color: #ff69b4;
 }
 
-.auth-buttons {
+.btn-container {
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
     gap: 12px;
-    margin-top: 20px;
 }
 
-.btn {
-    display: block;
+a.btn {
+    display: inline-block;
     padding: 12px 18px;
     font-size: 16px;
     font-weight: bold;
@@ -54,7 +49,6 @@
 .btn-primary {
     background-color: #ff69b4;
     color: white;
-    border: none;
 }
 
 .btn-secondary {
@@ -69,13 +63,17 @@
 }
 
 @media (max-width: 600px) {
-    .home-background {
-        padding: 30px;
-        width: 95%;
+    .your-team-container {
+        width: 90%;
+        padding: 15px;
     }
 
-    .title {
+    h1 {
         font-size: 24px;
+    }
+
+    p {
+        font-size: 16px;
     }
 
     .btn {

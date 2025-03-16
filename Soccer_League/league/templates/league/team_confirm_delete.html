@@ -1,4 +1,10 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/team_confirm_delete.css' %}">
+{% endblock %}
+
 {% block content %}
 <div class="delete-container">
     <h1>Delete Team</h1>

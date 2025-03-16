@@ -1,41 +1,49 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
 
 {% block content %}
-<h1>Dashboard</h1>
+<div class="dashboard-container">
+    <h1 class="dashboard-title">Dashboard</h1>
 
-{% with selected_team=user.selected_team %}
-    {% if selected_team %}
-        <p>Your Team: <strong>{{ selected_team.team.name }}</strong></p>
-        <p>League: {{ selected_team.team.league.name }}</p>
-        <a href="{% url 'league_standings' league_id=selected_team.team.league.id %}">View League Standings</a>
-    {% else %}
-        <p>You haven't selected a team yet. <a href="{% url 'team_list' %}">Select a team</a>.</p>
-    {% endif %}
-{% endwith %}
+    <div class="team-info">
+        {% if selected_team %}
+            <p>Your Team: <strong>{{ selected_team.team.name }}</strong></p>
+            <p>League: {{ selected_team.team.league.name }}</p>
+            <a href="{% url 'league_standings' league_id=selected_team.team.league.id %}" class="btn btn-primary">View League Standings</a>
+        {% else %}
+            <p>You haven't selected a team yet.</p>
+            <a href="{% url 'team_list' %}" class="btn btn-secondary">Select a Team</a>
+        {% endif %}
+    </div>
 
-<h2>Upcoming Matches</h2>
-<table>
-    <tr>
-        <th>Date</th>
-        <th>Home Team</th>
-        <th>Score</th>
-        <th>Away Team</th>
-    </tr>
-    {% for match in matches %}
-    <tr>
-        <td>{{ match.date }}</td>
-        <td>{{ match.home_team.name }}</td>
-        <td>
-            {% if match.completed %}
-                {{ match.home_score }} - {{ match.away_score }}
-            {% else %}
-                Upcoming
-            {% endif %}
-        </td>
-        <td>{{ match.away_team.name }}</td>
-    </tr>
-    {% empty %}
-        <tr><td colspan="4">No matches scheduled.</td></tr>
-    {% endfor %}
-</table>
+    <h2 class="match-title">Upcoming Matches</h2>
+    <table class="match-table">
+        <tr>
+            <th>Date</th>
+            <th>Home Team</th>
+            <th>Score</th>
+            <th>Away Team</th>
+        </tr>
+        {% for match in matches %}
+        <tr>
+            <td>{{ match.date }}</td>
+            <td>{{ match.home_team.name }}</td>
+            <td>
+                {% if match.completed %}
+                    {{ match.home_score }} - {{ match.away_score }}
+                {% else %}
+                    Upcoming
+                {% endif %}
+            </td>
+            <td>{{ match.away_team.name }}</td>
+        </tr>
+        {% empty %}
+            <tr><td colspan="4">No matches scheduled.</td></tr>
+        {% endfor %}
+    </table>
+</div>
 {% endblock %}

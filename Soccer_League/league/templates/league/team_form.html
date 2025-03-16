@@ -1,4 +1,10 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/team_form.css' %}">
+{% endblock %}
+
 {% block content %}
 <div class="form-container">
     <h1>Edit Team</h1>

@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/league_standings.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="standings-container">
@@ -33,7 +38,6 @@
     {% endfor %}
   </table>
 
-  <a href="{% url 'match_list' %}" class="btn btn-primary">Match Schedule</a>
+  <a href="{% url 'match_list' %}" class="btn-primary">Match Schedule</a>
 </div>
 {% endblock %}
-
