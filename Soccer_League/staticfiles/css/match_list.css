@@ -1,0 +1,73 @@
+.match-list-container {
+    width: 90%;
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.match-list-container h2 {
+    font-size: 2.5rem;
+    color: #d63384;
+    margin-bottom: 15px;
+}
+
+.match-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.match-table th,
+.match-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+    font-size: 1.6rem;
+}
+
+.match-table th {
+    background-color: #d63384;
+    color: white;
+}
+
+.upcoming-match {
+    color: #555;
+    font-weight: bold;
+}
+
+.match-table button {
+    background: #d63384;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    font-size: 1.4rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.match-table button:hover {
+    background: #b31e6f;
+}
+
+@media screen and (max-width: 600px) {
+    .match-list-container {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .match-table th,
+    .match-table td {
+        font-size: 1.4rem;
+        padding: 8px;
+    }
+
+    .match-table button {
+        font-size: 1.2rem;
+        padding: 6px 10px;
+    }
+}

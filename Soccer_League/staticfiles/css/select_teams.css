@@ -1,0 +1,95 @@
+.select-teams-container {
+    width: 90%;
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.select-teams-container h2 {
+    font-size: 2.5rem;
+    color: #d63384;
+    margin-bottom: 15px;
+}
+
+.error-message {
+    color: #ff4d4d;
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+}
+
+.selected-team {
+    font-size: 1.6rem;
+    color: #444;
+    margin-bottom: 20px;
+}
+
+.league-title {
+    font-size: 2rem;
+    color: #555;
+    margin-top: 20px;
+    text-align: left;
+    border-bottom: 2px solid #d63384;
+    padding-bottom: 5px;
+}
+
+.team-list {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+.team-list label {
+    display: flex;
+    align-items: center;
+    font-size: 1.4rem;
+    margin: 10px 0;
+    cursor: pointer;
+}
+
+.team-list input {
+    margin-right: 10px;
+    transform: scale(1.2);
+}
+
+.start-league-btn {
+    display: block;
+    width: 100%;
+    max-width: 250px;
+    margin: 20px auto;
+    padding: 12px;
+    font-size: 1.6rem;
+    background: #d63384;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.start-league-btn:hover {
+    background: #b31e6f;
+}
+
+@media screen and (max-width: 600px) {
+    .select-teams-container {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .league-title {
+        font-size: 1.8rem;
+    }
+
+    .team-list label {
+        font-size: 1.2rem;
+    }
+
+    .start-league-btn {
+        font-size: 1.4rem;
+        padding: 10px;
+    }
+}

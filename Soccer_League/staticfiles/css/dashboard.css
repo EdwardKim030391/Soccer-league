@@ -1,0 +1,98 @@
+.dashboard-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.dashboard-title {
+    font-size: 2.5rem;
+    color: #d63384;
+    margin-bottom: 15px;
+}
+
+.team-info {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.match-title {
+    font-size: 2rem;
+    color: #6c757d;
+    margin-top: 20px;
+}
+
+.match-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.match-table th,
+.match-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.match-table th {
+    background: #d63384;
+    color: #fff;
+}
+
+.match-table tr:nth-child(even) {
+    background: #f8f9fa;
+}
+
+.match-table tr:hover {
+    background: #f1f1f1;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 15px;
+    margin-top: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.btn-primary {
+    background: #d63384;
+    color: white;
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+    .dashboard-container {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .dashboard-title {
+        font-size: 2rem;
+    }
+
+    .match-table th, .match-table td {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+}
