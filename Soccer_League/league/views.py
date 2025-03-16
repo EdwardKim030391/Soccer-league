@@ -277,3 +277,37 @@ def change_team(request, team_id):
     )
 
     return redirect("your_team")
+
+@login_required
+def check_season_completion(request):
+
+    selected_team = SelectedTeam.objects.filter(user=request.user).first()
+    if not selected_team:
+        return redirect("team_list")
+
+    league = selected_team.team.league
+
+    all_matches_completed = not Match.objects.filter(league=league, completed=False).exists()
+
+    return render(request, "league/season_completion.html", {
+        "all_matches_completed": all_matches_completed,
+        "league": league,
+    })
+
+
+@login_required
+def start_new_season(request):
+
+    selected_team = SelectedTeam.objects.filter(user=request.user).first()
+    if not selected_team:
+        return redirect("team_list")
+
+    league = selected_team.team.league
+
+    Match.objects.filter(league=league).delete()
+
+    selected_teams = list(SelectedTeam.objects.filter(user=request.user).values_list("team_id", flat=True))
+
+    generate_league_matches(league, selected_teams)
+
+    return redirect("match_list")

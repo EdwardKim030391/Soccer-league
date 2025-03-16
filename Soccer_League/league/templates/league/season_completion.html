@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Season Status</h2>
+
+{% if all_matches_completed %}
+    <p>All matches have been completed. You can start a new season!</p>
+    <form method="post" action="{% url 'start_new_season' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Start New Season</button>
+    </form>
+{% else %}
+    <p>The current season is still ongoing.</p>
+    <a href="{% url 'match_list' %}" class="btn btn-secondary">Back to Matches</a>
+{% endif %}
+{% endblock %}
