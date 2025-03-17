@@ -205,7 +205,7 @@ def simulate_matches(request, match_id):
     match.completed = True
     match.save()
 
-    return JsonResponse({"message": f"Match {match_id} simulated!"})
+    return redirect("match_list")
 
 @login_required
 def simulate_season(request):
