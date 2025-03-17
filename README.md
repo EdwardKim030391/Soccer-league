@@ -1,4 +1,4 @@
-## ⚽ Soccer League Web App
+## ⚽ Soccer League
 A full-stack Django web application for managing soccer leagues, selecting teams, and simulating matches.
 <br/>[Play Here](https://soccer-league-f8cb7ffa0929.herokuapp.com/)
 ## 🚀Discription
