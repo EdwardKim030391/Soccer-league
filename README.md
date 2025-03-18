@@ -58,3 +58,4 @@ Soccer League is a Django-based web application where users can:
 
 ## 🎉Upcoming Features
 - User Profiles
+- Team Logo Image Upload
